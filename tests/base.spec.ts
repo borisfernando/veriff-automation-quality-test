@@ -1,4 +1,4 @@
-import {HomePage} from "../pages/home/home.page";
+import {SessionConfigurationPage} from "../pages/session/session-configuration-page";
 import {Page} from "@playwright/test";
 
 export class BaseTest {
@@ -9,10 +9,10 @@ export class BaseTest {
         this._page = page;
     }
 
-    async goToHomePage(): Promise<HomePage> {
-        const homePage = new HomePage(this._page);
-        await homePage.openPage();
-        return homePage;
+    async goToSessionConfigurationPage(): Promise<SessionConfigurationPage> {
+        const sessionConfiguration = new SessionConfigurationPage(this._page);
+        await sessionConfiguration.openPage();
+        return sessionConfiguration;
     }
 
 }
