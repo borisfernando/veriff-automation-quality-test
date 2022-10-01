@@ -3,7 +3,7 @@ import {Locator} from "@playwright/test";
 import {VerificationPage} from "../verification/verification.page";
 import {VerificationFactory} from "../verification/verification-factory.page";
 
-export class HomePage extends VeriffBasePage {
+export class SessionConfigurationPage extends VeriffBasePage {
     _url: string = "https://demo.saas-3.veriff.me/";
 
     private fullNameInputLocator: Locator;
@@ -68,13 +68,37 @@ export class HomePage extends VeriffBasePage {
         return this._page.locator('li', {hasText: elementValue}).click();
     }
 
+    isNameInputDisplayed(): Promise<boolean> {
+        return this.fullNameInputLocator.isVisible();
+    }
+
+    isLanguageDisplayed(): Promise<boolean> {
+        return this.sessionLanguageDropdownLocator.isVisible();
+    }
+
+    isCountryInputDisplayed(): Promise<boolean> {
+        return this.documentCountryDropdownLocator.isVisible();
+    }
+
+    isDocumentTypeDisplayed(): Promise<boolean> {
+        return this.documentTypeDropdownLocator.isVisible();
+    }
+
+    isSessionTypeDisplayed(): Promise<boolean> {
+        return this.launchVeriffInContextRadioLocator.isVisible()
+            && this.launchVeriffRedirectRadioLocator.isVisible();
+    }
+
     isConsentTextDisplayed(): Promise<boolean> {
         return this.consentTextLocator.isVisible();
     }
 
-    isPrivacyPolicyVisibleAndClickable(): Promise<boolean> {
-        return this.privacyPolicyAnchorLocator.isVisible()
-            && this.privacyPolicyAnchorLocator.isEditable();
+    isPrivacyPolicyVisible(): Promise<boolean> {
+        return this.privacyPolicyAnchorLocator.isVisible();
+    }
+
+    isVeriffButtonVisible(): Promise<boolean> {
+        return this.veriffMeButtonLocator.isVisible();
     }
 
     async clickOnPrivacyPolicyLink(): Promise<void> {
@@ -92,16 +116,19 @@ export class HomePage extends VeriffBasePage {
         await this.setDocumentCountry('Guatemala');
         await this.setDocumentType('Passport');
         await this.setVeriffLaunch(launchVeriffRedirect);
-
-        await this.clickOnVeriffMeButton();
-        await this._page.waitForLoadState();
     }
 
-    async fillUserDataAndContinueToVerificationFlow(launchVeriffRedirect: boolean): Promise<VerificationPage> {
-        await this.fillUserData(launchVeriffRedirect);
+    async continueToVerificationFlow(launchVeriffRedirect: boolean): Promise<VerificationPage> {
+        await this.clickOnVeriffMeButton();
+        await this._page.waitForLoadState();
 
         const verificationPage = VerificationFactory.createObject(this._page, launchVeriffRedirect);
         await verificationPage.openPage();
         return verificationPage;
+    }
+
+    async fillUserDataAndContinueToVerificationFlow(launchVeriffRedirect: boolean): Promise<VerificationPage> {
+        await this.fillUserData(launchVeriffRedirect);
+        return await this.continueToVerificationFlow(launchVeriffRedirect);
     }
 }
