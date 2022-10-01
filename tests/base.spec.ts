@@ -1,4 +1,4 @@
-import {HomePage} from "../pages/home.page";
+import {HomePage} from "../pages/home/home.page";
 import {Page} from "@playwright/test";
 
 export class BaseTest {
@@ -9,9 +9,10 @@ export class BaseTest {
         this._page = page;
     }
 
-    async goToHomePage() {
+    async goToHomePage(): Promise<HomePage> {
         const homePage = new HomePage(this._page);
         await homePage.openPage();
+        return homePage;
     }
 
 }
