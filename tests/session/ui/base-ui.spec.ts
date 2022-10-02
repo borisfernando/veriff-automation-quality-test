@@ -1,7 +1,7 @@
-import {SessionConfigurationPage} from "../pages/session/session-configuration-page";
+import {SessionConfigurationPage} from "../../../pages/session/session-configuration-page";
 import {Page} from "@playwright/test";
 
-export class BaseTest {
+export class BaseUiSpec {
 
     readonly _page: Page;
 
