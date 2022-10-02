@@ -21,8 +21,8 @@ const config: PlaywrightTestConfig = {
      */
     timeout: 5000
   },
-  /* Run tests in files in parallel - TODO: enable */
-  fullyParallel: false,
+  /* Run tests in files in parallel */
+  fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
@@ -33,12 +33,16 @@ const config: PlaywrightTestConfig = {
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    /* Run tests in headless - TODO: enable */
-    headless: false,
+    /* Run tests in headless */
+    headless: true,
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://localhost:3000',
+    // baseURL: 'https://demo.saas-3.veriff.me/',
+    /* Additional default headers. */
+    extraHTTPHeaders: {
+      'Content-Type': 'application/json',
+    },
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',

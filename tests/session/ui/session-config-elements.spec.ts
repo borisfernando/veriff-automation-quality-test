@@ -1,9 +1,9 @@
 import {expect, test} from "@playwright/test";
-import {BaseTest} from "../base.spec";
+import {BaseUiSpec} from "./base-ui.spec";
 
 test('Veriff Demo session configuration has all options visible. Specially consent and privacy policy.',
     async ({page}) => {
-        const baseTest = new BaseTest(page);
+        const baseTest = new BaseUiSpec(page);
 
         const sessionConfiguration = await baseTest.goToSessionConfigurationPage();
         await expect(sessionConfiguration.isNameInputDisplayed()).toBeTruthy();
@@ -21,7 +21,7 @@ test('Veriff Demo session configuration has all options visible. Specially conse
 
 test('Veriff Demo session configuration can access privacy policy.',
     async ({page}) => {
-        const baseTest = new BaseTest(page);
+        const baseTest = new BaseUiSpec(page);
 
         const sessionConfiguration = await baseTest.goToSessionConfigurationPage();
         await sessionConfiguration.clickOnPrivacyPolicyLink();
