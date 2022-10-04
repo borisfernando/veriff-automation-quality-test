@@ -24,6 +24,23 @@ The tools used in this repository are:
 - Typescript.
 
 ## Test execution
+### Docker
+The following code will run PlayWright tests in docker:
+```bash
+# Build custom image.
+$ docker build -t test-task:1.0 .
+# Run container with full tests.
+$ docker run test-task:1.0
+# Run container with API tests.
+$ docker run test-task:1.0 tests/session/api
+# Run container with UI tests.
+$ docker run test-task:1.0 tests/session/ui
+# Clear containers and others.
+$ docker system prune -f
+```
+
+### Locally
+
 To run tests, the [script](scripts/start-tests.sh) will execute the following command:
 ```bash
 $ npx playwright test

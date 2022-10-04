@@ -12,6 +12,7 @@ test.describe("session-config-flow", () => {
 
     test('Verify users can start an InContext session without session configuration.',
         async () => {
+            await sessionConfiguration.setFullName('Test user 1');
             await sessionConfiguration.setSessionLanguage('English');
             await sessionConfiguration.setVeriffLaunch(false);
 
@@ -21,6 +22,7 @@ test.describe("session-config-flow", () => {
 
     test('Verify users can start a Redirect session without session configuration.',
         async () => {
+            await sessionConfiguration.setFullName('Test user 2');
             await sessionConfiguration.setSessionLanguage('English');
             await sessionConfiguration.setVeriffLaunch(true);
 
