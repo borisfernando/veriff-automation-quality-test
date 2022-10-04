@@ -1,12 +1,17 @@
 #!/bin/bash
 
 # Getting actual directory path.
+SCRIPTS_DIRECTORY=$(dirname "$0")
+
 export REPO_PATH
-REPO_PATH="$(cd -- "$(dirname "$0")" >/dev/null 2>&1 || true ; pwd -P )/.."
+REPO_PATH="$(
+  cd "${SCRIPTS_DIRECTORY}" || return
+  pwd -P
+)/.."
 
 readonly DOCKER_COMMAND=$(command -v docker)
 
-readonly DOCKER_IMAGE_NAME="test-task"
+readonly DOCKER_IMAGE_NAME="veriff-test-task"
 readonly DOCKER_IMAGE_VERSION="1.0"
 readonly DOCKER_IMAGE="${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}"
 
