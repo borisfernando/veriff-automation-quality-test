@@ -22,6 +22,7 @@ The tools used in this repository are:
 - Node/npm.
 - PlayWright.
 - Typescript.
+- Docker.
 
 ## Test execution
 ### Docker
@@ -33,7 +34,7 @@ $ ./scripts/start-tests-docker.sh tests/session/ui
 $ ./scripts/start-tests-docker.sh tests/session/api 
 ```
 
-It will execute the following code:
+To do it manually, execute the following code:
 ```bash
 # Build custom image.
 $ docker build -t test-task:1.0 .
