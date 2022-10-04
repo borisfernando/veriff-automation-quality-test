@@ -6,6 +6,8 @@ import {VerificationFactory} from "../verification/verification-factory.page";
 export class SessionConfigurationPage extends VeriffBasePage {
     _url: string = "https://demo.saas-3.veriff.me/";
 
+    private _logoLocator: Locator;
+
     private _fullNameInputLocator: Locator;
     private _sessionLanguageDropdownLocator: Locator;
 
@@ -21,6 +23,8 @@ export class SessionConfigurationPage extends VeriffBasePage {
     private _veriffMeButtonLocator: Locator;
 
     async initElements() {
+        this._logoLocator = this._page.locator("#logo-color-regular");
+
         this._fullNameInputLocator = this._page.locator("input[name='name']");
         this._sessionLanguageDropdownLocator = this._page.locator("button[name='language']");
 
@@ -66,6 +70,10 @@ export class SessionConfigurationPage extends VeriffBasePage {
 
     setCustomDropdownValue(elementValue: string): Promise<void> {
         return this._page.locator('li', {hasText: elementValue}).click();
+    }
+
+    get logoLocator(): Locator {
+        return this._logoLocator;
     }
 
     get fullNameInputLocator(): Locator {
