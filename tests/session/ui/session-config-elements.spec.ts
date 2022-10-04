@@ -1,59 +1,65 @@
 import {expect, test} from "@playwright/test";
 import {BaseUiSpec} from "./base-ui.spec";
+import {SessionConfigurationPage} from "../../../pages/session/session-configuration-page";
 
-test('Verify users can see all available options for session configuration.',
-    async ({page}) => {
-        const baseTest = new BaseUiSpec(page);
+test.describe("session-config-elements", () => {
+    let sessionConfiguration: SessionConfigurationPage;
 
-        const sessionConfiguration = await baseTest.goToSessionConfigurationPage();
-        await expect(sessionConfiguration.fullNameInputLocator).toBeVisible();
-        await expect(sessionConfiguration.sessionLanguageDropdownLocator).toBeVisible();
-        await expect(sessionConfiguration.documentCountryDropdownLocator).toBeVisible();
-        await expect(sessionConfiguration.documentTypeDropdownLocator).toBeVisible();
-        await expect(sessionConfiguration.launchVeriffInContextRadioLocator).toBeVisible();
-        await expect(sessionConfiguration.launchVeriffRedirectRadioLocator).toBeVisible();
-
-        await expect(sessionConfiguration.consentTextLocator).toBeVisible();
-        await expect(sessionConfiguration.privacyPolicyAnchorLocator).toBeVisible();
-
-        await expect(sessionConfiguration.veriffMeButtonLocator).toBeVisible();
+    test.beforeEach(async ({page}) => {
+        const baseUiSpec = new BaseUiSpec(page);
+        sessionConfiguration = await baseUiSpec.goToSessionConfigurationPage();
     });
 
-test('Verify users can fill in information and data is consistent.',
-    async ({page}) => {
-        const baseTest = new BaseUiSpec(page);
+    test('Verify users can see all available options for session configuration.',
+        async () => {
+            await expect(sessionConfiguration.logoLocator).toBeVisible();
 
-        const sessionConfiguration = await baseTest.goToSessionConfigurationPage();
+            await expect(sessionConfiguration.fullNameInputLocator).toBeVisible();
+            await expect(sessionConfiguration.sessionLanguageDropdownLocator).toBeVisible();
+            await expect(sessionConfiguration.documentCountryDropdownLocator).toBeVisible();
+            await expect(sessionConfiguration.documentTypeDropdownLocator).toBeVisible();
+            await expect(sessionConfiguration.launchVeriffInContextRadioLocator).toBeVisible();
+            await expect(sessionConfiguration.launchVeriffRedirectRadioLocator).toBeVisible();
 
-        await sessionConfiguration.setFullName('Test user');
-        await expect(await sessionConfiguration.fullNameInputLocator.getAttribute('value'))
-            .toBe('Test user');
+            await expect(sessionConfiguration.consentTextLocator).toBeVisible();
+            await expect(sessionConfiguration.privacyPolicyAnchorLocator).toBeVisible();
 
-        await sessionConfiguration.setSessionLanguage('English');
-        await expect(await sessionConfiguration.sessionLanguageDropdownLocator.innerText())
-            .toBe('English');
+            await expect(sessionConfiguration.veriffMeButtonLocator).toBeVisible();
+        });
 
-        await sessionConfiguration.setDocumentCountry('Guatemala');
-        await expect(await sessionConfiguration.documentCountryDropdownLocator.getAttribute('value'))
-            .toBe('Guatemala');
+    test('Verify users can fill in information and data is consistent.',
+        async () => {
+            const fullName = 'Test user';
+            await sessionConfiguration.setFullName(fullName);
+            await expect(await sessionConfiguration.fullNameInputLocator.getAttribute('value'))
+                .toBe(fullName);
 
-        await sessionConfiguration.setDocumentType('Passport');
-        await expect(await sessionConfiguration.documentTypeDropdownLocator.innerText())
-            .toBe('Passport');
+            const language = 'English';
+            await sessionConfiguration.setSessionLanguage(language);
+            await expect(await sessionConfiguration.sessionLanguageDropdownLocator.innerText())
+                .toBe(language);
 
-        await sessionConfiguration.setVeriffLaunch(true);
-        await expect(sessionConfiguration.launchVeriffRedirectRadioLocator).toBeChecked();
+            const documentCountry = 'Guatemala';
+            await sessionConfiguration.setDocumentCountry(documentCountry);
+            await expect(await sessionConfiguration.documentCountryDropdownLocator.getAttribute('value'))
+                .toBe(documentCountry);
 
-        await sessionConfiguration.setVeriffLaunch(false);
-        await expect(sessionConfiguration.launchVeriffInContextRadioLocator).toBeChecked();
-    });
+            const documentType = 'Passport';
+            await sessionConfiguration.setDocumentType(documentType);
+            await expect(await sessionConfiguration.documentTypeDropdownLocator.innerText())
+                .toBe(documentType);
 
-test('Verify users can see the consent and privacy policy information.',
-    async ({page}) => {
-        const baseTest = new BaseUiSpec(page);
+            await sessionConfiguration.setVeriffLaunch(true);
+            await expect(sessionConfiguration.launchVeriffRedirectRadioLocator).toBeChecked();
 
-        const sessionConfiguration = await baseTest.goToSessionConfigurationPage();
-        await expect(sessionConfiguration.consentTextLocator).toBeVisible();
-        await sessionConfiguration.clickOnPrivacyPolicyLink();
-        await expect(page.url()).toContain("https://www.veriff.com/privacy-policy");
-    });
+            await sessionConfiguration.setVeriffLaunch(false);
+            await expect(sessionConfiguration.launchVeriffInContextRadioLocator).toBeChecked();
+        });
+
+    test('Verify users can see the consent and privacy policy information.',
+        async ({page}) => {
+            await expect(sessionConfiguration.consentTextLocator).toBeVisible();
+            await sessionConfiguration.clickOnPrivacyPolicyLink();
+            await expect(page.url()).toContain("https://www.veriff.com/privacy-policy");
+        });
+});
