@@ -25,7 +25,15 @@ The tools used in this repository are:
 
 ## Test execution
 ### Docker
-The following code will run PlayWright tests in docker:
+To improve and facilitate execution, this [script](scripts/start-tests-docker.sh) will execute the following commands and open the html report:
+
+```bash
+$ ./scripts/start-tests-docker.sh
+$ ./scripts/start-tests-docker.sh tests/session/ui
+$ ./scripts/start-tests-docker.sh tests/session/api 
+```
+
+It will execute the following code:
 ```bash
 # Build custom image.
 $ docker build -t test-task:1.0 .
@@ -41,7 +49,7 @@ $ docker system prune -f
 
 ### Locally
 
-To run tests, the [script](scripts/start-tests.sh) will execute the following command:
+To run tests, the [script](scripts/start-tests.sh) (Docker's entrypoint) will execute the following command:
 ```bash
 $ npx playwright test
 ```
