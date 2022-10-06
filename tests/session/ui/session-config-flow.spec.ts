@@ -1,6 +1,6 @@
 import {expect, test} from "@playwright/test";
 import {BaseUiSpec} from "./base-ui.spec";
-import {SessionConfigurationPage} from "../../../pages/session/session-configuration-page";
+import {SessionConfigurationPage} from "../../../pages/session/session-configuration.page";
 
 test.describe("session-config-flow", () => {
     let sessionConfiguration: SessionConfigurationPage;

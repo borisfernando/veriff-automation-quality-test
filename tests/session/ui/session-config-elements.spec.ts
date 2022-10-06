@@ -1,6 +1,6 @@
 import {expect, test} from "@playwright/test";
 import {BaseUiSpec} from "./base-ui.spec";
-import {SessionConfigurationPage} from "../../../pages/session/session-configuration-page";
+import {SessionConfigurationPage} from "../../../pages/session/session-configuration.page";
 
 test.describe("session-config-elements", () => {
     let sessionConfiguration: SessionConfigurationPage;
@@ -59,6 +59,14 @@ test.describe("session-config-elements", () => {
     test('Verify users can see the consent and privacy policy information.',
         async ({page}) => {
             await expect(sessionConfiguration.consentTextLocator).toBeVisible();
+            await expect(sessionConfiguration.consentTextLocator)
+                .toContainText('your audio, video and technical information may be recorded and processed ' +
+                    'for the purposes of testing Veriff’s verification flow');
+
+            await expect(sessionConfiguration.privacyPolicyAnchorLocator).toBeVisible();
+            await expect(sessionConfiguration.privacyPolicyAnchorLocator)
+                .toContainText('Privacy Policy');
+
             await sessionConfiguration.clickOnPrivacyPolicyLink();
             await expect(page.url()).toContain("https://www.veriff.com/privacy-policy");
         });
