@@ -8,6 +8,7 @@ WORKDIR /tests
 COPY . .
 
 # Install playwright (dependencies which includes chromium).
+RUN npm install
 RUN npx playwright install
 
 # Use the script as entrypoint for multiple test run.
